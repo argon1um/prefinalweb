@@ -75,17 +75,20 @@
                         <div class="frame-427318906">
                             <div class="title6">Заявка @order.OrderId</div>
                         </div>
-                        <div class="subtitle">Дата начала передержки: @order.IssueDate</div>
+                        <div class="subtitle">Дата начала передержки:@order.IssueDate </div>
                         <div class="subtitle">Дата окончания передержки: @order.AdmissionDate</div>
+                        
                         <h6>Квитанция:</h6>
                         <a download="Квитанция.xlsx" asp-page-handler="CreateDoc" asp-route-id="@order.OrderId">Скачать</a>
+                        <a download="Договор.docx" class="signout-button" asp-page-handler="GenerateAgreement" asp-route-id="@order.OrderId">Оплатить</a>
+                        <br />
                         <svg class="vector-2003"
                              width="906"
                              height="2"
                              viewBox="0 0 906 2"
                              fill="none"
                              xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 1H906" stroke="black" stroke-opacity="0.1"/>
+                            <path d="M0 1H906" stroke="black" stroke-opacity="0.5"/>
                         </svg>
                     </div>
                 </div>
@@ -105,17 +108,19 @@
                             <div class="frame-427318906">
                                 <div class="title6">Квитанция @order.OrderId</div>
                             </div>
-                            <div class="subtitle">Дата начала передержки: @order.IssueDate</div>
+                            <div class="subtitle">Дата начала передержки:@order.IssueDate </div>
                             <div class="subtitle">Дата окончания передержки: @order.AdmissionDate</div>
                             <h6>Квитанция:</h6>
                             <a download="Квитанция.xlsx" asp-page-handler="CreateDoc" asp-route-id="@order.OrderId">Скачать</a>
+                            <a download="Договор.docx" class="signout-button" asp-page-handler="GenerateAgreement" asp-route-id="@order.OrderId">Оплатить</a>
+                            <br />
                             <svg class="vector-2005"
                                  width="924"
                                  height="2"
                                  viewBox="0 0 924 2"
                                  fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 1H924" stroke="black" stroke-opacity="0.1"/>
+                                <path d="M0 1H924" stroke="black" stroke-opacity="0.5"/>
                             </svg>
                         </div>
                     </div>

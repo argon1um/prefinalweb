@@ -2109,3 +2109,4 @@ C:\Users\ItzArg\Desktop\ahweb-main\obj\Debug\net7.0\refint\ah4cClientApp.dll
 C:\Users\ItzArg\Desktop\ahweb-main\obj\Debug\net7.0\ah4cClientApp.pdb
 C:\Users\ItzArg\Desktop\ahweb-main\obj\Debug\net7.0\ah4cClientApp.genruntimeconfig.cache
 C:\Users\ItzArg\Desktop\ahweb-main\obj\Debug\net7.0\ref\ah4cClientApp.dll
+C:\Users\ItzArg\Desktop\ahweb-main\obj\Debug\net7.0\ah4cClientApp.sourcelink.json

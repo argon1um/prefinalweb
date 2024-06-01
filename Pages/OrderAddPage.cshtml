@@ -6,6 +6,7 @@
     string address = "http://localhost:8081/";
     DateOnly admdate = OrderAddPageModel.admDatefq;
     DateOnly issuedate = OrderAddPageModel.issueDatefq;
+    var dateDifference = issuedate.DayNumber - admdate.DayNumber + 1;
     var isdisplay = "none";
     if (ViewData["showerror"] != null && ViewData["showerror"] as string == "true")
     {
@@ -89,7 +90,7 @@
         cursor: pointer;
     }
 </style>
-<form id="orderForm" method="post">
+<form id="orderForm" method="post" data-days-difference="@dateDifference">
     <table>
         <thead>
             <tr>
@@ -103,7 +104,14 @@
             {
                 <tr>
                     <td>
-                        <input type="checkbox" id="service_@i" name="service" value="@Model.Booking.Services[i]" data-price="@Model.Booking.Services[i].Price" />
+                        @if (i == 0 || i == 1)
+                        {
+                            <input type="radio" id="service_@i" class="form__input" name="service" data-price="@Model.Booking.Services[i].Price" data-per-day="@Model.Booking.Services[i].IsPerDay" checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" id="service_@i" name="service" class="form__input" data-price="@Model.Booking.Services[i].Price" data-per-day="@Model.Booking.Services[i].IsPerDay" />
+                        }
                     </td>
                     <td> <span>+</span>
                         
@@ -117,7 +125,6 @@
             }
         </tbody>
     </table>
-    <button type="button" class="btn btn-primary" id="calculateButton">Рассчитать</button>
     <h3>Итоговая стоимость: <span name="totalCost" id="totalCost" readonly>@Model.Booking.TotalCost</span> ₽</h3>
     <input type="hidden" id="spanValue" name="totalPrice" />
     <label for="clientName">ФИО клиента</label><br />
@@ -178,20 +185,23 @@
 
 <script>
     $(document).ready(function () {
-        $('#bookingForm input[type="number"]').change(function () {
+        $('#orderForm input').change(function () {
             calculateTotalCost();
         });
 
         function calculateTotalCost() {
-            var totalCost = 0;
-            $('#bookingForm input[type="number"]').each(function () {
-                var quantity = parseInt($(this).val());
-                var price = parseFloat($(this).closest('tr').find('.price').text());
-                if (!isNaN(quantity) && !isNaN(price)) {
-                    totalCost += quantity * price;
+            const diff = Number(document.querySelector('#orderForm').dataset.daysDifference)
+
+            const total = Array.from(document.querySelectorAll('.form__input:checked')).reduce((prev, curr) => {
+                console.log({ ...curr.dataset });
+                if (curr.dataset.perDay === "True") {
+                    return prev + diff * Number(curr.dataset.price)
+                } else {
+                    return prev + Number(curr.dataset.price)
                 }
-            });
-            $('#totalCost').text(totalCost.toFixed(2));
+            }, 0);
+
+            document.querySelector('#totalCost').innerHTML = total.toFixed(2)
         }
 
         calculateTotalCost();
@@ -200,7 +210,7 @@
 
             const items = 
                 Array.from(
-                    document.querySelectorAll('input.form-control')
+                    document.querySelectorAll('input.form__input')
                 ).map(el => ({ price: el.dataset.price, quantity: el.value }));
 
             const price = items.reduce((prev, curr) => prev + curr.quantity * curr.price, 0)
