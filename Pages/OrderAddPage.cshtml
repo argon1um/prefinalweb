@@ -1,0 +1,235 @@
+@page
+@using Newtonsoft.Json
+@model ah4cClientApp.Pages.OrderAddPageModel
+@{
+
+    string address = "http://localhost:8081/";
+    DateOnly admdate = OrderAddPageModel.admDatefq;
+    DateOnly issuedate = OrderAddPageModel.issueDatefq;
+    var isdisplay = "none";
+    if (ViewData["showerror"] != null && ViewData["showerror"] as string == "true")
+    {
+        isdisplay = "block";
+    }
+    else if (ViewData["showsuccess"] != null && ViewData["showsuccess"] as string == "true")
+    {
+        isdisplay = "block";
+    }
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+    .checkboxright {
+        display: flex;
+        flex-direction: row;
+        font-size: 14px;
+    }
+
+    .radio-container {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+        .radio-container input[type="radio"] {
+            display: none; /* Скрыть оригинальную радиокнопку */
+        }
+
+        .radio-container label {
+            display: inline-block;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .radio-container input[type="radio"]:checked + label {
+            background-color: #007bff; /* Изменить цвет фона для выбранной радиокнопки */
+            color: #fff; /* Изменить цвет текста для выбранной радиокнопки */
+        }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    form {
+        margin: 20px auto;
+        width: 50%;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #666;
+    }
+
+    input, select, button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+<form id="orderForm" method="post">
+    <table>
+        <thead>
+            <tr>
+                <th>Выбрать</th>
+                <th>Цена</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Booking.Services.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" id="service_@i" name="service" value="@Model.Booking.Services[i]" data-price="@Model.Booking.Services[i].Price" />
+                    </td>
+                    <td> <span>+</span>
+                        
+                        @Model.Booking.Services[i].Price @if (Model.Booking.Services[i].IsPerDay)
+                        {
+                            @Html.Raw("₽ в день")
+                        }
+                    </td>
+                    <td>@Model.Booking.Services[i].Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" id="calculateButton">Рассчитать</button>
+    <h3>Итоговая стоимость: <span name="totalCost" id="totalCost" readonly>@Model.Booking.TotalCost</span> ₽</h3>
+    <input type="hidden" id="spanValue" name="totalPrice" />
+    <label for="clientName">ФИО клиента</label><br />
+    @if (AuthPageModel.client != null)
+    {
+        <input required name="clientName" value="@AuthPageModel.client.ClientName" readonly />
+        <label for="clientPhone">Номер телефона клиента</label>
+        <input required name="clientPhone" value="@AuthPageModel.client.ClientPhone" readonly />
+    }
+    else
+    {
+        <input required name="clientName" />
+        <label for="clientPhone">Номер телефона клиента</label>
+        <input required name="clientPhone" />
+        <br />
+    }
+    <label for="roomId">Номер комнаты</label><br />
+    <input required name="roomId" value="@Model.roomId" /><br />
+    <label for="admissionDate">Дата принятия</label><br />
+    <input  required id="admissionDate" name="admissionDate" value="@admdate" readonly /><br />
+    <label for="issueDate">Дата выселения</label><br />
+    <input  required id="issueDate" name="issueDate" value="@issuedate" readonly /><br />
+    <label for="animalType">Вид питомца</label><br />
+    <div class="radio-container">
+        <input type="radio" id="@("typeRadio_1")" name="animaltypes" required value="Котики">
+        <label for="@("typeRadio_1")">Котики</label>
+        <input type="radio" id="@("typeRadio_2")" name="animaltypes" required value="Собачки">
+        <label for="@("typeRadio_2")">Собачки</label>
+    </div>
+    <label for="animalBreed">Порода питомца</label><br />
+    <input type="text" required name="animalBreed" /><br />
+    <label for="animalName">Кличка питомца</label><br />
+    <input required name="animalName" /><br />
+    <label for="animalAge">Возраст питомца</label><br />
+    <input required name="animalAge" /><br />
+    <label for="animalWeight">Вес питомца(в граммах)</label><br />
+    <input required name="animalWeight" placeholder="1500=1.5кг" /><br />
+    <label for="animalHeight">Рост питомца(В сантиметрах)</label><br />
+    <input required name="animalHeight" /><br />
+    <label for="gens">Пол питомца</label><br />
+    <div class="radio-container">
+        <input type="radio" id="radioM" name="gens" value="М">
+        <label for="radioM">М</label>
+        <input type="radio" id="radioW" name="gens" value="Ж">
+        <label for="radioW">Ж</label>
+    </div>
+    <div class="checkboxright">
+        <a href="https://litepms.ru/widget/opd?id=284" for="acceptrules">Я даю согласие на обработку моих персональных данных</a>
+        <input type="checkbox" size="5" name="acceptrules" />
+    </div>
+    <input type="button" id="submitOrderButton" value="Оплатить и забронировать" />
+    <div class="form-group" id="errorMessage" style="display:none; color:red;"></div>
+    <div class="form-group" id="successMessage" style="display:none; color:green;"></div>
+</form>
+<form action="/BookingPage">
+    <input type="submit" value="Вернуться назад" />
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#bookingForm input[type="number"]').change(function () {
+            calculateTotalCost();
+        });
+
+        function calculateTotalCost() {
+            var totalCost = 0;
+            $('#bookingForm input[type="number"]').each(function () {
+                var quantity = parseInt($(this).val());
+                var price = parseFloat($(this).closest('tr').find('.price').text());
+                if (!isNaN(quantity) && !isNaN(price)) {
+                    totalCost += quantity * price;
+                }
+            });
+            $('#totalCost').text(totalCost.toFixed(2));
+        }
+
+        calculateTotalCost();
+
+        document.querySelector("#calculateButton").addEventListener('click', () => {
+
+            const items = 
+                Array.from(
+                    document.querySelectorAll('input.form-control')
+                ).map(el => ({ price: el.dataset.price, quantity: el.value }));
+
+            const price = items.reduce((prev, curr) => prev + curr.quantity * curr.price, 0)
+
+            document.querySelector("#totalCost").innerHTML = price.toFixed(2);
+            document.getElementById("spanValue").value = document.getElementById("totalCost").innerText;
+        })
+    });
+
+
+
+    $('#submitOrderButton').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Page("/OrderAddPage")',
+            data: $('#orderForm').serialize(),
+            success: function (result) {
+                if (result.success) {
+                    $('#successMessage').text(result.message).show();
+                    $('#errorMessage').hide();
+                } else {
+                    $('#errorMessage').text(result.message).show();
+                    $('#successMessage').hide();
+                }
+            },
+            error: function (xhr, status, error) {
+                $('#errorMessage').text("Произошла ошибка при обработке запроса.").show();
+                $('#successMessage').hide();
+            }
+        });
+    });
+</script>

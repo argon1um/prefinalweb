@@ -1,0 +1,148 @@
+﻿@page
+@model ah4cClientApp.Pages.UserCabPageModel
+@{
+    
+    var isdisplay = "none";
+    if (ViewData["showerror"] != null && ViewData["showerror"] as string == "true" && ViewData["showsuccess"] == null)
+    {
+        isdisplay = "block";
+    }
+    else if (ViewData["showsuccess"] != null && ViewData["showsuccess"] as string == "true")
+    {
+        isdisplay = "block";
+    }
+}
+<link rel="stylesheet" href="./css/site.css"/>
+
+
+<div class="page">
+    <div class="banner">
+        <div class="banner-content">
+            <div class="banner-title">@Model.user.ClientName</div>
+            <div class="banner-description">Информация о вашем аккаунте</div>
+        </div>
+
+    </div>
+    <div class="mainsection">
+        <div class="avatar">
+            <image class="cabinet-avatar" src="/assets/defaultimage.png"/>
+        </div>
+        <div class="container2">
+            <div class="selection">
+                <h5 class="label-text">Логин:</h5>
+                <div class="label-text">@Model.user.ClientPhone</div>
+            </div>
+            <div class="usercab-userinformaion">
+                <div class="label-normal">
+                    <h5 class=" label-text">Пароль:</h5>
+                    <input type="password" value="@Model.user.ClientPassword"/>
+
+                </div>
+                <form method="post">
+                    <button class="signout-button">Выйти из аккаунта</button>
+                </form>
+            </div>
+        </div>
+        <div class="seconday">
+
+        </div>
+        <svg class="usercab-userinformaion"></svg>
+    </div>
+    <div class="section3">
+        <div class="container3">
+            <div class="title5">История заявок</div>
+            <div class="description2">Вы обращались к нам @Model.Orders.Count() раз</div>
+            <div class="radio-container">
+                <input type="radio" id="@("allorders")" name="orderspayed" required value="Показать все заявки">
+                <label for="@("typeRadio_1")">Показать все заявки</label>
+                <input type="radio" id="@("unpayedorders")" name="orderspayed" required value="Показать неоплаченные заявки">
+                <label for="@("typeRadio_2")">Показать неоплаченные заявки</label>
+            </div>
+            <div class="radio-container">
+                <input type="radio" id="@("neworders")" name="ordersnewold" required value="Сначала новее">
+                <label for="@("typeRadio_1")">Сначала новее</label>
+                <input type="radio" id="@("oldorders")" name="ordersnewold" required value="Сначала старее">
+                <label for="@("typeRadio_2")">Сначала старее</label>
+            </div>
+            @foreach (var order in Model.Orders.Where(x => x.OrderStatusId != 1))
+            {
+                <div class="list">
+
+                    <div class="item">
+                        <div class="frame">
+                            <div class="icon">💸</div>
+                        </div>
+                        <div class="frame-427318906">
+                            <div class="title6">Заявка @order.OrderId</div>
+                        </div>
+                        <div class="subtitle">Дата начала передержки: @order.IssueDate</div>
+                        <div class="subtitle">Дата окончания передержки: @order.AdmissionDate</div>
+                        <h6>Квитанция:</h6>
+                        <a download="Квитанция.xlsx" asp-page-handler="CreateDoc" asp-route-id="@order.OrderId">Скачать</a>
+                        <svg class="vector-2003"
+                             width="906"
+                             height="2"
+                             viewBox="0 0 906 2"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 1H906" stroke="black" stroke-opacity="0.1"/>
+                        </svg>
+                    </div>
+                </div>
+            }
+            <div class="container4">
+                <div class="title5">Неоплаченные заявки</div>
+                <div class="description2">
+                    У вас есть @Model.Orders.Where(x => x.OrderStatusId == 1).Count() неоплаченная заявка на проживание питомца
+                </div>
+                @foreach (var order in Model.Orders.Where(x => x.OrderStatusId == 1))
+                {
+                    <div class="list">
+                        <div class="item">
+                            <div class="frame">
+                                <div class="icon">💸</div>
+                            </div>
+                            <div class="frame-427318906">
+                                <div class="title6">Квитанция @order.OrderId</div>
+                            </div>
+                            <div class="subtitle">Дата начала передержки: @order.IssueDate</div>
+                            <div class="subtitle">Дата окончания передержки: @order.AdmissionDate</div>
+                            <h6>Квитанция:</h6>
+                            <a download="Квитанция.xlsx" asp-page-handler="CreateDoc" asp-route-id="@order.OrderId">Скачать</a>
+                            <svg class="vector-2005"
+                                 width="924"
+                                 height="2"
+                                 viewBox="0 0 924 2"
+                                 fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 1H924" stroke="black" stroke-opacity="0.1"/>
+                            </svg>
+                        </div>
+                    </div>
+                }
+            </div>
+            <svg class="vector-2006"
+                 width="1920"
+                 height="1"
+                 viewBox="0 0 1920 1"
+                 fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 1H1920" stroke="black" stroke-opacity="0.1"/>
+            </svg>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const radios = document.querySelectorAll('input[type=radio]');
+        radios.forEach(radio => {
+            radio.addEventListener('change', function () {
+                const selectedValue = document.querySelector('input[name="' + this.name + '"]:checked').value;
+                const outputDiv = document.getElementById('output');
+                outputDiv.textContent = `Вы выбрали: ${selectedValue}`;
+            });
+        });
+    });
+</script>
+

@@ -1,0 +1,62 @@
+﻿@page
+@using AnimalHouseRestAPI.Models
+@model ah4cClientApp.Pages.IndexModel
+@{
+}
+<link rel="stylesheet" href="./css/site.css" />
+<div class="page">
+    <div class="banner">
+        <div class="banner-content">
+            <div class="banner-title">Добро пожаловать в отель для домашних животных</div>
+            <div class="banner-description">
+                Где к вашим питомцам относятся как к членам семьи
+            </div>
+        </div>
+
+    </div>
+    <div class="page-maintitle">Наши услуги</div>
+    <div class="roomwrapper">
+    <div class="card-orientation">
+            @foreach (Service service in IndexModel.services)
+            {
+                
+                <div class="card">
+                    <div class="image-container">
+                        <div class="image">
+                            @if (service.ServiceImage == "photosession")
+                                {
+
+                                    <img src="/assets/photosession.png" />
+                                }
+
+                            @if (service.ServiceImage == "medicine")
+                                {
+
+                                    <img src="/assets/medicine.png" />
+                                }
+
+                            @if (service.ServiceImage == "bookingplus")
+                                {
+
+                                    <img src="/assets/bookingplus.jpg" />
+                                }
+                            @if (service.ServiceImage == null)
+                                {
+                                    <img src="/assets/defaultimage.png" />                               
+                                }
+
+                        </div>
+                    </div>
+                    <div class="card-text">
+                        <div class="card-title">@service.ServiceDescription</div>
+                        <div class="icon-buttons">
+                            <div class="icon">🐶</div>
+                            <div class="icon">🐱</div>
+                            <label class="price">@service.ServicePrice/сутки</label>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+﻿@page
+@model ah4cClientApp.Pages.WorkerCabPageModel
+@{
+
+    var isdisplay = "none";
+    if (ViewData["showerror"] != null && ViewData["showerror"] as string == "true" && ViewData["showsuccess"] == null)
+    {
+        isdisplay = "block";
+    }
+    else if (ViewData["showsuccess"] != null && ViewData["showsuccess"] as string == "true")
+    {
+        isdisplay = "block";
+    }
+}
+<link rel="stylesheet" href="./css/site.css" />
+
+
+<div class="page">
+    <div class="banner">
+        <div class="banner-content">
+            <div class="banner-title">@Model.user.WorkerName</div>
+            <div class="banner-description">Информация о вашем аккаунте</div>
+        </div>
+
+    </div>
+    <div class="mainsection">
+        <div class="avatar">
+            <image class="cabinet-avatar" src="/assets/defaultimage.png" />
+        </div>
+        <div class="container2">
+            <div class="selection">
+                <h5 class="label-text">Логин:</h5>
+                <div class="label-text">@Model.user.WorkerLogin</div>
+            </div>
+            <div class="usercab-userinformaion">
+                <div class="label-normal">
+                    <h5 class=" label-text">Пароль:</h5>
+                    <input type="password" value="@Model.user.WorkerPassword" />
+
+                </div>
+            </div>
+        </div>
+        <div class="seconday">
+        </div>
+        <svg class="usercab-userinformaion"></svg>
+    </div>
+    <div class="section3">
+        <div class="container3">
+            <div class="title5">История заявок</div>
+            <div class="description2">Найдено @Model.Orders.Count() обращений</div>
+            @foreach (var order in Model.Orders.Where(x => x.OrderStatusId != 1))
+            {
+                <div class="list">
+
+                    <div class="item">
+                        <div class="frame">
+                            <div class="icon">💸</div>
+                        </div>
+                        <div class="frame-427318906">
+                            <div class="title6">Заявка #@order.OrderId</div>
+                        </div>
+                        <div class="subtitle">Дата начала передержки: @order.IssueDate</div>
+                        <div class="subtitle">Дата окончания передержки: @order.AdmissionDate</div>
+                        <h6>Квитанция:</h6>
+                        <a href="/DownloadExcel"> Скачать</a>
+                        <svg class="vector-2003"
+                             width="906"
+                             height="2"
+                             viewBox="0 0 906 2"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 1H906" stroke="black" stroke-opacity="0.1" />
+                        </svg>
+                        
+
+                    </div>
+                </div>
+            }  
+        </div>
+    </div>
+</div>
+

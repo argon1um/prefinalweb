@@ -1,0 +1,67 @@
+﻿ @page
+@model ah4cClientApp.Pages.AuthPageModel
+@{
+
+    ViewData["Title"] = "Home page";
+    var isdisplay = "none";
+    if (ViewData["showerror"] != null && ViewData["showerror"] as string == "true" && ViewData["showsuccess"] == null)
+    {
+        isdisplay = "block";
+    }
+    else if (ViewData["showsuccess"] != null && ViewData["showsuccess"] as string == "true")
+    {
+        isdisplay = "block";
+    }
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+<body>
+    <div class="page">
+        <div class="section">
+            <div class="container">
+                <form method="post">
+                    <h3 class="title">Авторизация</h3>
+                    <h5 class="title">Номер телефона</h5>
+                    <input type="text" class="title2" id="username" name="username">
+                    <div class="textfield"></div>
+                    <h5 class="title">Пароль</h5>
+                    <input type="password" id="password" class="defaulttextbox" name="password">
+                    <div class="button">
+                        <div class="primary">
+                            <button class="usercab-button">Войти</button>
+                        </div>
+                    </div>
+                </form>
+
+                <form action="/RegistrationPage">
+                    <div class="button">
+                        <div class="primary">
+                            <button class="usercab-button">Зарегистрироваться</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="form-group" style="display:@isdisplay">
+                    <span style="color:red">@ViewData["customerror"]</span>
+                </div>
+            </div>
+            <svg class="vector-200"
+                 width="1440"
+                 height="1"
+                 viewBox="0 0 1440 1"
+                 fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 1H1440" stroke="black" stroke-opacity="0.1" />
+            </svg>
+        </div>
+    </div>
+</body>
+</html>

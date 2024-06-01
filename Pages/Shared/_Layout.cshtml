@@ -1,0 +1,56 @@
+﻿@using AnimalHouseRestAPI.Models
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]Animal House</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div class="header">
+            <div class="header-content">
+                <img class="iconlog" src="assets/iconimage.jpg"/>
+                <div class="header-title">AnimalHouse | Второй дом для вашего питомца</div>
+            </div>
+            <div class="header-navigation">
+                <form action="/BookingPage">
+                    <button class="navigation-tab">Бронирование</button>
+                    
+                </form>
+                <form action="/Index">
+                    <button class="navigation-tab">Услуги</button>
+
+                </form> 
+                <form action="/UserCabPage">
+                    @if(ah4cClientApp.Pages.IndexModel.check){
+
+                    <button id="usercabbutton" class="navigation-tab">Личный кабинет</button>
+                    }
+                </form>
+                <form action="/AuthPage" >
+                    @if(!ah4cClientApp.Pages.IndexModel.check){
+                    <button class="navigation-tab">Войти</button>
+                    }
+                </form>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

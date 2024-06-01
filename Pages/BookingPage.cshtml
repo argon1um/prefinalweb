@@ -1,0 +1,112 @@
+﻿@page
+@using AnimalHouseRestAPI.Models
+@model ah4cClientApp.Pages.BookingPageModel
+@{
+    var isdisplay = "none";
+    if (ViewData["showerror"] != null && ViewData["showerror"] as string == "true" && ViewData["showsuccess"] == null)
+    {
+        isdisplay = "block";
+    }
+    else if (ViewData["showsuccess"] != null && ViewData["showsuccess"] as string == "true")
+    {
+        isdisplay = "block";
+    }
+}
+<div class="banner">
+    <div class="banner-content">
+        <div class="banner-title">Добро пожаловать в отель для домашних животных</div>
+        <div class="banner-description">
+            Где к вашим питомцам относятся как к членам семьи
+        </div>
+    </div>
+
+</div>
+<h2 class="page-maintitle">Выберите нужные даты</h2>
+<form id="datesform" method="post">
+    <input type="date" name="admissionDate" id="admissionDate" value="admissionDate" asp-for="admissionDate">
+    <input type="date" name="issueDate" id="issueDate" value="issueDate" asp-for="issueDate">
+    <button type="submit" id="findRooms" onclick="this.form.submit()">Поиск</button>
+
+</form>
+<div class="form-group" style="display:@isdisplay">
+    <span style="color:red">@ViewData["customerror"]</span>
+</div>
+<h2 class="page-maintitle">Свободные номера для питомцев</h2>
+<div class="card-oriientation">
+    @foreach (Room room in BookingPageModel.rooms)
+    {
+        var imagepath = room.RoomImage;
+        <form method="post">
+            <div id="@room.RoomId" class="roomcard">
+                <div class="image-container">
+                    <div class="image">
+                        <a href=OrderAddPage?roomId=@room.RoomId>
+                            @if (@room.RoomImage == "largeroom")
+                            {
+                                <img src="/assets/largeroom.jpg"/>
+                            }
+                            @if (@room.RoomImage == "mediumroom")
+                            {
+                                <img src="/assets/mediumroom.jpg"/>
+                            }
+                            @if (@room.RoomImage == "smallroom")
+                            {
+                                <img src="/assets/smallroom.jpg"/>
+                            }
+                        </a>
+                    </div>
+                </div>
+                <div class="card-text">
+                    <div class="card-title">@room.RoomDescription</div>
+                    <div class="icon-buttons">
+                        <div class="icon">🐶</div>
+                        <div class="icon">🐱</div>
+                    </div>
+                    <div class="icon">#@room.RoomNumber</div>
+                </div>
+            </div>
+        </form>
+    }
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const startDateInput = document.getElementById('admissionDate');
+        const endDateInput = document.getElementById('issueDate');
+
+        // Устанавливаем минимальную дату для startDateInput как сегодняшний день
+        const today = new Date().toISOString().split('T')[0];
+        startDateInput.min = today;
+
+        startDateInput.addEventListener('change', function () {
+            // Получаем выбранную дату в startDateInput
+            const selectedDate = new Date(startDateInput.value);
+            // Устанавливаем минимальную дату для endDateInput как на один день позже выбранной даты
+            const minEndDate = new Date(selectedDate);
+            minEndDate.setDate(minEndDate.getDate() + 1);
+            endDateInput.min = minEndDate.toISOString().split('T')[0];
+        });
+    });
+
+
+    $('#findRooms').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Page("/BookingPage")',
+            data: $('#datesform').serialize(),
+            success: function (result) {
+                if (result.success) {
+                    $('#successMessage').text(result.message).show();
+                    $('#errorMessage').hide();
+                } else {
+                    $('#errorMessage').text(result.message).show();
+                    $('#successMessage').hide();
+                }
+            },
+            error: function (xhr, status, error) {
+                $('#errorMessage').text("Произошла ошибка при обработке запроса.").show();
+                $('#successMessage').hide();
+            }
+        });
+    });
+</script>
