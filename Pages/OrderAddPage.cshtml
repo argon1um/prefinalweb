@@ -202,6 +202,7 @@
             }, 0);
 
             document.querySelector('#totalCost').innerHTML = total.toFixed(2)
+            document.getElementById("spanValue").value = document.getElementById("totalCost").innerText;
         }
 
         calculateTotalCost();
@@ -216,7 +217,7 @@
             const price = items.reduce((prev, curr) => prev + curr.quantity * curr.price, 0)
 
             document.querySelector("#totalCost").innerHTML = price.toFixed(2);
-            document.getElementById("spanValue").value = document.getElementById("totalCost").innerText;
+
         })
     });
 

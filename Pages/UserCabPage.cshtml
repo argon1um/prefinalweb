@@ -80,7 +80,7 @@
                         
                         <h6>Квитанция:</h6>
                         <a download="Квитанция.xlsx" asp-page-handler="CreateDoc" asp-route-id="@order.OrderId">Скачать</a>
-                        <a download="Договор.docx" class="signout-button" asp-page-handler="GenerateAgreement" asp-route-id="@order.OrderId">Оплатить</a>
+                        <a download="Agreement.docx" class="signout-button" asp-page-handler="GenerateAgreement" asp-route-id="@order.OrderId">Оплатить</a>
                         <br />
                         <svg class="vector-2003"
                              width="906"
@@ -112,7 +112,7 @@
                             <div class="subtitle">Дата окончания передержки: @order.AdmissionDate</div>
                             <h6>Квитанция:</h6>
                             <a download="Квитанция.xlsx" asp-page-handler="CreateDoc" asp-route-id="@order.OrderId">Скачать</a>
-                            <a download="Договор.docx" class="signout-button" asp-page-handler="GenerateAgreement" asp-route-id="@order.OrderId">Оплатить</a>
+                            <a download="Agreement.docx" class="signout-button" asp-page-handler="GenerateAgreement" asp-route-id="@order.OrderId">Оплатить</a>
                             <br />
                             <svg class="vector-2005"
                                  width="924"

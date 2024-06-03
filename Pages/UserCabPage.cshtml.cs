@@ -35,6 +35,12 @@ namespace ah4cClientApp.Pages
             return new FileStreamResult(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") { FileDownloadName = "Квитанция.xlsx" };
         }
 
+        public IActionResult OnGetGenerateAgreement(int id)
+        {
+            var stream = new HttpClient().GetStreamAsync($"http://localhost:8081/orders/GenerateAgreement?id={id}").Result;
+            return new FileStreamResult(stream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ) { FileDownloadName = "agreement.docx" };
+        }
+
         public IActionResult OnPost()
         {
             ah4cClientApp.Pages.IndexModel.check = false;
