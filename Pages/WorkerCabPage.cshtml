@@ -38,7 +38,11 @@
                     <input type="password" value="@Model.user.WorkerPassword" />
 
                 </div>
+                <form method="post">
+                    <button class="signout-button">Выйти из аккаунта</button>
+                </form>
             </div>
+
         </div>
         <div class="seconday">
         </div>
@@ -47,11 +51,10 @@
     <div class="section3">
         <div class="container3">
             <div class="title5">История заявок</div>
-            <div class="description2">Найдено @Model.Orders.Count() обращений</div>
+            <div class="description2">Найдено @Model.Orders.Count() заявок для подтверждения</div>
             @foreach (var order in Model.Orders.Where(x => x.OrderStatusId != 1))
             {
                 <div class="list">
-
                     <div class="item">
                         <div class="frame">
                             <div class="icon">💸</div>
@@ -61,19 +64,16 @@
                         </div>
                         <div class="subtitle">Дата начала передержки: @order.IssueDate</div>
                         <div class="subtitle">Дата окончания передержки: @order.AdmissionDate</div>
-                        <h6>Квитанция:</h6>
-                        <a href="/DownloadExcel"> Скачать</a>
-                        <svg class="vector-2003"
-                             width="906"
-                             height="2"
-                             viewBox="0 0 906 2"
-                             fill="none"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 1H906" stroke="black" stroke-opacity="0.1" />
-                        </svg>
-                        
-
-                    </div>
+                        <a class="signout-button" asp-page-handler="Apply" asp-route-id="@order.OrderId">Подтвердить оплату</a>
+                        </div>
+                    <svg class="vector-2003"
+                         width="906"
+                         height="2"
+                         viewBox="0 0 906 2"
+                         fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 1H906" stroke="black" stroke-opacity="0.7" />
+                    </svg>
                 </div>
             }  
         </div>

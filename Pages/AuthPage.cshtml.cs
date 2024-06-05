@@ -74,7 +74,6 @@ namespace ah4cClientApp.Pages
                 {
                     IndexModel.check = true;
                     client = JsonConvert.DeserializeObject<ClientResponseLogin>(response.Content.ReadAsStringAsync().Result);
-                    worker = JsonConvert.DeserializeObject<WorkerResponseDTO>(response.Content.ReadAsStringAsync().Result);
                     return RedirectToPage("UserCabPage");
                 }
                 else

@@ -50,8 +50,8 @@
     </div>
     <div class="section3">
         <div class="container3">
-            <div class="title5">История заявок</div>
-            <div class="description2">Вы обращались к нам @Model.Orders.Count() раз</div>
+            <h3 class="title5">История заявок</h3>
+            <h4 class="description2">Вы обращались к нам @Model.Orders.Count() раз</h4>
             <div class="radio-container">
                 <input type="radio" id="@("allorders")" name="orderspayed" required value="Показать все заявки">
                 <label for="@("typeRadio_1")">Показать все заявки</label>
@@ -79,8 +79,8 @@
                         <div class="subtitle">Дата окончания передержки: @order.AdmissionDate</div>
                         
                         <h6>Квитанция:</h6>
-                        <a download="Квитанция.xlsx" asp-page-handler="CreateDoc" asp-route-id="@order.OrderId">Скачать</a>
-                        <a download="Agreement.docx" class="signout-button" asp-page-handler="GenerateAgreement" asp-route-id="@order.OrderId">Оплатить</a>
+                        <a download="Квитанция.xlsx" class="signout-button" asp-page-handler="CreateDoc" asp-route-id="@order.OrderId">Квитанция</a>
+                        <a download="Договор.docx" class="signout-button" asp-page-handler="GenerateAgreement" asp-route-id="@order.OrderId">Договор</a>
                         <br />
                         <svg class="vector-2003"
                              width="906"
@@ -94,7 +94,7 @@
                 </div>
             }
             <div class="container4">
-                <div class="title5">Неоплаченные заявки</div>
+                <h4 class="title5">Неоплаченные заявки</h4>
                 <div class="description2">
                     У вас есть @Model.Orders.Where(x => x.OrderStatusId == 1).Count() неоплаченная заявка на проживание питомца
                 </div>
@@ -110,9 +110,9 @@
                             </div>
                             <div class="subtitle">Дата начала передержки:@order.IssueDate </div>
                             <div class="subtitle">Дата окончания передержки: @order.AdmissionDate</div>
-                            <h6>Квитанция:</h6>
-                            <a download="Квитанция.xlsx" asp-page-handler="CreateDoc" asp-route-id="@order.OrderId">Скачать</a>
-                            <a download="Agreement.docx" class="signout-button" asp-page-handler="GenerateAgreement" asp-route-id="@order.OrderId">Оплатить</a>
+                            <h6>Документы:</h6>
+                            <a download="Квитанция.xlsx" class="signout-button" asp-page-handler="CreateDoc" asp-route-id="@order.OrderId">Квитанция</a>
+                            <a download="Договор.docx" class="signout-button" asp-page-handler="GenerateAgreement" asp-route-id="@order.OrderId">Договор</a>
                             <br />
                             <svg class="vector-2005"
                                  width="924"
@@ -139,15 +139,6 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const radios = document.querySelectorAll('input[type=radio]');
-        radios.forEach(radio => {
-            radio.addEventListener('change', function () {
-                const selectedValue = document.querySelector('input[name="' + this.name + '"]:checked').value;
-                const outputDiv = document.getElementById('output');
-                outputDiv.textContent = `Вы выбрали: ${selectedValue}`;
-            });
-        });
-    });
+
 </script>
 

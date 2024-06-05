@@ -15,7 +15,8 @@ namespace ah4cClientApp.Pages
 
             if (user != null)
             {
-                Orders = new HttpClient().GetFromJsonAsync<List<OrderGetDTO>>("http://localhost:8081/orders/orderslist").Result;
+                Orders = new HttpClient().GetFromJsonAsync<List<OrderGetDTO>>("http://localhost:8081/orders/payedorders").Result;
+                
                 return Page();
             }
             else
@@ -29,7 +30,21 @@ namespace ah4cClientApp.Pages
         public IActionResult OnPost()
         {
             ah4cClientApp.Pages.IndexModel.check = false;
+            AuthPageModel.client = null;
+            WorkerAuthPageModel.worker = null;
             return Redirect("/index");
+        }
+        public IActionResult OnGetApply(int id)
+        {
+            var response = new HttpClient().PostAsJsonAsync(string.Format("http://localhost:8081/orders/statuschange?orderid={0}", id), id).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToPage("/WorkerCabPage");
+            }
+            else
+            {
+                return RedirectToPage("/WorkerCabPage");
+            }
         }
     }
 }

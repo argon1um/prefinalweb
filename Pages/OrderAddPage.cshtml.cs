@@ -41,7 +41,7 @@ namespace ah4cClientApp.Pages
             {
                 new AdditionalService { Description = "Проживание в номере гостиницы без оказания доп услуг", Price = 200, IsPerDay = true },
                 new AdditionalService { Description = "Проживание в номере гостинцы с еждедневными прогулками с питомцем", Price =350, IsPerDay = true },
-                new AdditionalService { Description = "Постоянное медецинское наблюдение за питомцем", Price = 300, IsPerDay = true},
+                new AdditionalService { Description = "Постоянное медицинское наблюдение за питомцем", Price = 150, IsPerDay = true},
                 new AdditionalService { Description = "Фотосессия для вашего питомца", Price = 500, IsPerDay = false }
             };
             }
@@ -74,7 +74,7 @@ namespace ah4cClientApp.Pages
             string serv2count = Request.Form["addservice_1"];
             string serv3count = Request.Form["addservice_2"];
             string serv4count = Request.Form["addservice_3"];
-
+            string email = Request.Form["email"];
             string strClientName = Request.Form["clientName"];
             string strClientPhone = Request.Form["clientPhone"];
             string strRoomid = Request.Form["roomId"];
@@ -90,13 +90,18 @@ namespace ah4cClientApp.Pages
             string acceptrules = Request.Form["acceptrules"];
             string gen = Request.Form["gens"];
             if (string.IsNullOrEmpty(strClientName) || string.IsNullOrEmpty(strClientPhone) || string.IsNullOrEmpty(strRoomid) || string.IsNullOrEmpty(strAdmDate) || string.IsNullOrEmpty(strIssueDate) && string.IsNullOrEmpty(animalType) || string.IsNullOrEmpty(animalBreed)
-                || string.IsNullOrEmpty(animalName) || string.IsNullOrEmpty(animalAge) || string.IsNullOrEmpty(animalWeight) || string.IsNullOrEmpty(animalHeight) || string.IsNullOrEmpty(gen))
+                || string.IsNullOrEmpty(animalName) || string.IsNullOrEmpty(animalAge) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(animalWeight) || string.IsNullOrEmpty(animalHeight) || string.IsNullOrEmpty(gen))
             {
                 return new JsonResult(new { success = false, message = "Заполните все поля" });
             }
             else if (!decimal.TryParse(strClientPhone, out decimal clientphone))
             {
                 return new JsonResult(new { success = false, message = "Номер телефона введён некорректно" });
+            }
+            else if (!email.Contains("@"))
+            { 
+                
+                return new JsonResult(new { success = false, message = "Адрес электронной почты введён некорректно" });
             }
             else
             {
@@ -121,6 +126,7 @@ namespace ah4cClientApp.Pages
                         clientPhone = decimal.Parse(strClientPhone),
                         clientName = strClientName,
                         roomId = roomid,
+                        clientEmail = email,
                         animalType = animalType,
                         animalName = animalName,
                         animalAge = int.Parse(animalAge),

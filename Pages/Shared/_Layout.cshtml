@@ -25,12 +25,21 @@
                     <button class="navigation-tab">Услуги</button>
 
                 </form> 
-                <form action="/UserCabPage">
                     @if(ah4cClientApp.Pages.IndexModel.check){
 
-                    <button id="usercabbutton" class="navigation-tab">Личный кабинет</button>
+                        if (AuthPageModel.client != null)
+                        {
+                            <form action="/UserCabPage">
+                                <button  id="usercabbutton" class="navigation-tab">Личный кабинет</button>
+                            </form>
+                        }
+                        @if (WorkerAuthPageModel.worker != null)
+                        {
+                            <form action="/WorkerCabPage">
+                                <button  id="workercabbutton" class="navigation-tab"> Личный кабинет</button>
+                            </form>
+                        }
                     }
-                </form>
                 <form action="/AuthPage" >
                     @if(!ah4cClientApp.Pages.IndexModel.check){
                     <button class="navigation-tab">Войти</button>

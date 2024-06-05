@@ -43,6 +43,8 @@ namespace ah4cClientApp.Pages
 
         public IActionResult OnPost()
         {
+            AuthPageModel.client = null;
+            WorkerAuthPageModel.worker = null;
             ah4cClientApp.Pages.IndexModel.check = false;
             return Redirect("/index");
         }

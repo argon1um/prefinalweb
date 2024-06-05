@@ -11,6 +11,7 @@
         public int roomId { get; set; }
         public string animalType { get; set; }
         public string animalBreed { get; set; }
+        public string clientEmail { get; set; }
         public string animalName { get; set; }
         public int animalAge { get; set; }
         public decimal animalWeight { get; set; }

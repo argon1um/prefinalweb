@@ -127,18 +127,24 @@
     </table>
     <h3>Итоговая стоимость: <span name="totalCost" id="totalCost" readonly>@Model.Booking.TotalCost</span> ₽</h3>
     <input type="hidden" id="spanValue" name="totalPrice" />
-    <label for="clientName">ФИО клиента</label><br />
     @if (AuthPageModel.client != null)
     {
+        <label for="clientName">ФИО клиента</label>
         <input required name="clientName" value="@AuthPageModel.client.ClientName" readonly />
         <label for="clientPhone">Номер телефона клиента</label>
         <input required name="clientPhone" value="@AuthPageModel.client.ClientPhone" readonly />
+        <label for="clientPhone">Электронная почта</label>
+        <input required type="email" name="email" value="@AuthPageModel.client.ClientEmail" readonly/>
+        
     }
     else
     {
+        <label for="clientName">ФИО клиента</label>
         <input required name="clientName" />
         <label for="clientPhone">Номер телефона клиента</label>
-        <input required name="clientPhone" />
+        <input required type="number" name="clientPhone" />
+        <label for="clientPhone">Электронная почта</label>
+        <input required type="email" name="email" />
         <br />
     }
     <label for="roomId">Номер комнаты</label><br />
@@ -159,11 +165,11 @@
     <label for="animalName">Кличка питомца</label><br />
     <input required name="animalName" /><br />
     <label for="animalAge">Возраст питомца</label><br />
-    <input required name="animalAge" /><br />
+    <input required type="number" name="animalAge" /><br />
     <label for="animalWeight">Вес питомца(в граммах)</label><br />
-    <input required name="animalWeight" placeholder="1500=1.5кг" /><br />
+    <input required type="number" name="animalWeight" placeholder="1500=1.5кг" /><br />
     <label for="animalHeight">Рост питомца(В сантиметрах)</label><br />
-    <input required name="animalHeight" /><br />
+    <input required type="number" name="animalHeight" /><br />
     <label for="gens">Пол питомца</label><br />
     <div class="radio-container">
         <input type="radio" id="radioM" name="gens" value="М">
@@ -171,6 +177,8 @@
         <input type="radio" id="radioW" name="gens" value="Ж">
         <label for="radioW">Ж</label>
     </div>
+    <label for="info">Дополнительная информация</label>
+    <input name="info" id="info"/>
     <div class="checkboxright">
         <a href="https://litepms.ru/widget/opd?id=284" for="acceptrules">Я даю согласие на обработку моих персональных данных</a>
         <input type="checkbox" size="5" name="acceptrules" />
